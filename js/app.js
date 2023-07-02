@@ -20,7 +20,7 @@ class CalorieTracker {
         this._displayNewMeal(meal)
         this._render()
     }
-
+     
     addWorkout(workout){
         this._workouts.push(workout)
         this._totalCalories -= workout.calories;
@@ -169,6 +169,8 @@ class App {
 
         document.getElementById('workout-form').addEventListener
         ('submit', this._newItem.bind(this, 'workout'))
+
+        document.getElementById('meal-items').addEventListener('click',this._removeItem.bind(this, 'meal'))
     }
 
     _newItem(type, e) {
@@ -187,7 +189,8 @@ class App {
             const meal = new Meal(name.value, +calories.value);
             this._tracker.addMeal(meal)
         } else {
-            const workout = new Workout(name.value, +calories.value);
+            const workout = new Workout(name.value
+                , +calories.value);
             this._tracker.addWorkout(workout)
         }
 
@@ -198,6 +201,20 @@ class App {
         const bsCollapse = new bootstrap.Collapse(collapseItem,{
             toggle: true,
         })
+    }
+
+    _removeItem(type, e) {
+        if (e.target.classList.contains('delete') || e.target.classList.contains('fa-xmark')){
+            if (confirm('Are you sure?')) {
+                const id = e.target.closest('.card').getAttribute('data-id')
+
+                type === 'meal'
+                ? this._tracker.removeMeal(id)
+                : this._tracker.removeWorkout(id)
+
+            e.target.closest('.card').remove()
+          }
+        }
     }
 }
 
