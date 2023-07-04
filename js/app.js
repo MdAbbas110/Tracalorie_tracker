@@ -47,6 +47,7 @@ class CalorieTracker {
       this._render();
     }
   }
+  // to reset everything from page
     reset() {
     this._totalCalories = 0
     this._meals = []
